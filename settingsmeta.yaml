@@ -1,0 +1,20 @@
+skillMetadata:
+  sections:
+    - name: Authentification
+      fields:
+        - name: email
+          type: email
+          label: Email
+          value: ''
+        - name: password
+          type: password
+          label: Password
+          value: ''
+    - name: Default shopping list
+      fields:
+        - type: label
+          label: This is the shopping list that will be set everytime you restart Mycroft.
+        - name: default_list
+          type: text
+          label: Name of your default shopping list
+          value: ''
