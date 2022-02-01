@@ -15,6 +15,7 @@ class BringShoppingLists(MycroftSkill):
         try:
             self.listUuid = ''
             self.listName = ''
+            self.loggedInUntil = None
             self.bring = Bring(self.settings.get('email', ''), self.settings.get('password', ''))
             if self.validate_login():
                 self.log.debug('Bring! login successful!')

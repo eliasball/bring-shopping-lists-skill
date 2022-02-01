@@ -16,5 +16,5 @@ skillMetadata:
           label: This is the shopping list that will be set everytime you restart Mycroft.
         - name: default_list
           type: text
-          label: Name of your default shopping list
+          label: Name of your default shopping list (case-sensitive)
           value: ''
