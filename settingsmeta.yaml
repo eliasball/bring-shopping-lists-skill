@@ -1,6 +1,6 @@
 skillMetadata:
   sections:
-    - name: Authentification
+    - name: Bring! login
       fields:
         - name: email
           type: email
@@ -13,8 +13,8 @@ skillMetadata:
     - name: Default shopping list
       fields:
         - type: label
-          label: This is the shopping list that will be set everytime you restart Mycroft.
+          label: This is the shopping list that will be set everytime you restart Mycroft. The name is case-sensitive.
         - name: default_list
           type: text
-          label: Name of your default shopping list (case-sensitive)
+          label: Name of your default shopping list
           value: ''

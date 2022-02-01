@@ -99,9 +99,19 @@ class BringShoppingLists(MycroftSkill):
         else:
             self.speak_dialog('not.logged.in')
 
-        
-    
-    # TODO Add remove item
+    @intent_handler('remove.from.shopping.list.intent')
+    def remove_from_shopping_list(self, message):
+        if self.validate_login():
+            item = message.data.get('item').capitalize()
+
+            try:
+                self.bring.removeItem(self.get_list(), item)
+                self.speak_dialog('item.was.removed', {'item': item, 'list': self.listName})
+            except:
+                self.log.exception('Error: Could not remove item from list:\n' + traceback.format_exc())
+                self.speak_dialog('error.removing.item', {'item': item, 'list': self.listName})
+        else:
+            self.speak_dialog('not.logged.in')
 
     # TODO Add change shopping list
 
