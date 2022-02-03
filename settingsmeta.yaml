@@ -13,8 +13,8 @@ skillMetadata:
     - name: Default shopping list
       fields:
         - type: label
-          label: This is the shopping list that will be set everytime you restart Mycroft. The name is case-sensitive.
-        - name: default_list
+          label: The name of the shopping list to be used when no list is explicitly specified and none was set using Mycroft. Be sure to type in the exact name of the list in Bring!.
+        - name: active_list
           type: text
           label: Name of your default shopping list
           value: ''

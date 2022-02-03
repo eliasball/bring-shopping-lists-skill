@@ -198,6 +198,13 @@ class BringShoppingLists(MycroftSkill):
             self.speak_dialog('list.not.recognized', {'input': newList})
             return False
 
+    @intent_handler('what.is.active.list.intent')
+    def what_is_active_list(self):
+        if self.fetch_active_list():
+            self.speak_dialog('active.list.is', {'list_name': self.listName})
+            return
+        self.speak_dialog('could.not.find.active.list')
+
 
 
 def create_skill():
