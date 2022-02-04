@@ -92,69 +92,82 @@ class BringShoppingLists(MycroftSkill):
         return []
         
 
-
-    # def get_list(self):
-    #     """"
-    #     Tries to return listUuid of set default list.
-    #     Returns listUuid of first found list otherwise.
-
-    #     Sets list name as a side effect.
-    #     """
-    #     if self.listUuid != '':
-    #         return self.listUuid
-        
-    #     if self.validate_login():
-    #         try:
-    #             lists = self.bring.loadLists()['lists']
-    #         except:
-    #             self.log.exception('Failed to fetch lists: ' + traceback.format_exc())
-    #             raise
-
-    #         if self.settings.get('default_list', '') != '':
-    #             for list in lists:
-    #                 if list['name'] == self.settings.get('default_list', ''):
-    #                     self.listUuid = list['listUuid']
-    #                     self.listName = list['name']
-    #                     return self.listUuid
-            
-    #         self.log.debug('Chosen default shopping list name not recognized, choosing first list.')
-    #         self.listUuid = lists[0]['listUuid']
-    #         self.listName = lists[0]['name']
-    #         return self.listUuid
-
-
-    @intent_handler('add.to.active.shopping.list.intent')
-    def add_to_active_shopping_list(self, message):
+    @intent_handler('add.to.shopping.list.intent')
+    def add_to_shopping_list(self, message):
         if self.validate_login():
             item = message.data.get('item').capitalize()
+            listName = message.data.get('list_name')
 
-            try:
-                if not self.fetch_active_list(): 
+            if listName == None:
+                try:
+                    if not self.fetch_active_list(): 
+                        self.speak_dialog('could.not.find.any.list')
+                        return
+                    self.bring.saveItem(self.listUuid, item)
+                    self.speak_dialog('item.was.added', {'item': item, 'list': self.listName})
+                except:
+                    self.log.exception('Could not add item to list:\n' + traceback.format_exc())
+                    self.speak_dialog('error.adding.item', {'item': item, 'list': self.listName})
+            else:
+                lists = self.get_lists()
+                if lists == []:
                     self.speak_dialog('could.not.find.any.list')
                     return
-                self.bring.saveItem(self.listUuid, item)
-                self.speak_dialog('item.was.added', {'item': item, 'list': self.listName})
-            except:
-                self.log.exception('Could not add item to list:\n' + traceback.format_exc())
-                self.speak_dialog('error.adding.item', {'item': item, 'list': self.listName})
+                
+                for list in lists:
+                    if list.get('name').lower() == listName.lower():
+                        try:
+                            self.bring.saveItem(list.get('listUuid'), item)
+                            self.speak_dialog('item.was.added', {'item': item, 'list': list.get('name')})
+                            return
+                        except:
+                            self.log.exception(f'Could not add item to list {listName}:\n' + traceback.format_exc())
+                            self.speak_dialog('error.adding.item', {'item': item, 'list': listName})
+                            return
+                        
+
+                self.speak_dialog('list.not.recognized', {'input': listName})
+            
         else:
             self.speak_dialog('not.logged.in')
 
 
-    @intent_handler('remove.from.active.shopping.list.intent')
-    def remove_from_active_shopping_list(self, message):
+    @intent_handler('remove.from.shopping.list.intent')
+    def remove_from_shopping_list(self, message):
         if self.validate_login():
             item = message.data.get('item').capitalize()
+            listName = message.data.get('list_name')
 
-            try:
-                if not self.fetch_active_list(): 
+            if listName == None:
+                try:
+                    if not self.fetch_active_list(): 
+                        self.speak_dialog('could.not.find.any.list')
+                        return
+                    self.bring.removeItem(self.listUuid, item)
+                    self.speak_dialog('item.was.removed', {'item': item, 'list': self.listName})
+                except:
+                    self.log.exception('Could not remove item from list:\n' + traceback.format_exc())
+                    self.speak_dialog('error.removing.item', {'item': item, 'list': self.listName})
+            else:
+                lists = self.get_lists()
+                if lists == []:
                     self.speak_dialog('could.not.find.any.list')
                     return
-                self.bring.removeItem(self.listUuid, item)
-                self.speak_dialog('item.was.removed', {'item': item, 'list': self.listName})
-            except:
-                self.log.exception('Could not remove item from list:\n' + traceback.format_exc())
-                self.speak_dialog('error.removing.item', {'item': item, 'list': self.listName})
+                
+                for list in lists:
+                    if list.get('name').lower() == listName.lower():
+                        try:
+                            self.bring.removeItem(list.get('listUuid'), item)
+                            self.speak_dialog('item.was.removed', {'item': item, 'list': list.get('name')})
+                            return
+                        except:
+                            self.log.exception(f'Could not remove item from list {listName}:\n' + traceback.format_exc())
+                            self.speak_dialog('error.removing.item', {'item': item, 'list': listName})
+                            return
+                        
+
+                self.speak_dialog('list.not.recognized', {'input': listName})
+
         else:
             self.speak_dialog('not.logged.in')
 
@@ -187,6 +200,7 @@ class BringShoppingLists(MycroftSkill):
                     self.settings['active_list'] = selection
                     self.listUuid = list.get('listUuid')
                     self.listName = list.get('name')
+                    self.speak_dialog('active.list.set.to', {'list_name': self.listName})
                     return True
         else:
             for list in lists:
@@ -194,6 +208,7 @@ class BringShoppingLists(MycroftSkill):
                     self.settings['active_list'] = newList
                     self.listUuid = list.get('listUuid')
                     self.listName = list.get('name')
+                    self.speak_dialog('active.list.set.to', {'list_name': self.listName})
                     return True
             self.speak_dialog('list.not.recognized', {'input': newList})
             return False
