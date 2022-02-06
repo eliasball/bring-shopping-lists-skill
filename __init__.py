@@ -86,7 +86,8 @@ class BringShoppingLists(MycroftSkill):
         if self.validate_login():
             try:
                 lists = self.bring.loadLists()['lists']
-                self.log.debug('received lists: ' + lists)
+                self.log.debug('received lists: ')
+                self.log.debug('lists')
                 return lists
             except:
                 self.log.exception('Could not load lists from Bring:\n' + traceback.format_exc())
