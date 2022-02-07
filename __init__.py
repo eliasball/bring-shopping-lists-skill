@@ -104,6 +104,7 @@ class BringShoppingLists(MycroftSkill):
                 try:
                     if not self.fetch_active_list(): 
                         self.speak_dialog('could.not.find.any.list')
+                        self.speak_dialog('did.you.add.correct.login.details')
                         return
                     self.bring.saveItem(self.listUuid, item)
                     self.speak_dialog('item.was.added', {'item': item, 'list': self.listName})
@@ -114,6 +115,7 @@ class BringShoppingLists(MycroftSkill):
                 lists = self.get_lists()
                 if lists == []:
                     self.speak_dialog('could.not.find.any.list')
+                    self.speak_dialog('did.you.add.correct.login.details')
                     return
                 
                 for list in lists:
@@ -132,6 +134,7 @@ class BringShoppingLists(MycroftSkill):
             
         else:
             self.speak_dialog('not.logged.in')
+            self.speak_dialog('please.set.email.and.password')
 
 
     @intent_handler('remove.from.shopping.list.intent')
@@ -144,6 +147,7 @@ class BringShoppingLists(MycroftSkill):
                 try:
                     if not self.fetch_active_list(): 
                         self.speak_dialog('could.not.find.any.list')
+                        self.speak_dialog('did.you.add.correct.login.details')
                         return
                     self.bring.removeItem(self.listUuid, item)
                     self.speak_dialog('item.was.removed', {'item': item, 'list': self.listName})
@@ -154,6 +158,7 @@ class BringShoppingLists(MycroftSkill):
                 lists = self.get_lists()
                 if lists == []:
                     self.speak_dialog('could.not.find.any.list')
+                    self.speak_dialog('did.you.add.correct.login.details')
                     return
                 
                 for list in lists:
@@ -172,6 +177,7 @@ class BringShoppingLists(MycroftSkill):
 
         else:
             self.speak_dialog('not.logged.in')
+            self.speak_dialog('please.set.email.and.password')
 
 
     @intent_handler('change.active.list.intent')
@@ -185,6 +191,7 @@ class BringShoppingLists(MycroftSkill):
         lists = self.get_lists()
         if lists == []:
             self.speak_dialog('could.not.find.any.list')
+            self.speak_dialog('did.you.add.correct.login.details')
             return False
 
         if newList == None:
@@ -221,6 +228,7 @@ class BringShoppingLists(MycroftSkill):
             self.speak_dialog('active.list.is', {'list_name': self.listName})
             return
         self.speak_dialog('could.not.find.active.list')
+        self.speak_dialog('did.you.set.list')
 
 
 
