@@ -1,4 +1,4 @@
-The active list is {list_name}
-The current active list is {list_name}
+The default list is {list_name}
+The current default list is {list_name}
 The currently set list is {list_name}
 Currently you are using the list {list_name}
