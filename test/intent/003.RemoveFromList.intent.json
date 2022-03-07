@@ -1,0 +1,10 @@
+{
+  "utterance": "remove eggs from my shopping list home",
+  "intent_type": "remove.from.shopping.list.intent",
+  "expected_data": {
+    "item": "eggs",
+    "list_name": "home"
+  },
+  "expected_dialog": "not.logged.in",
+  "expected_dialog": "please.set.email.and.password"
+}

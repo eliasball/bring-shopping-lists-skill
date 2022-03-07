@@ -1,0 +1,9 @@
+{
+  "utterance": "set my active shopping list to home",
+  "intent_type": "change.active.list.intent",
+  "expected_data": {
+    "new_list": "home"
+  },
+  "expected_dialog": "could.not.find.any.list",
+  "expected_dialog": "did.you.add.correct.login.details"
+}
