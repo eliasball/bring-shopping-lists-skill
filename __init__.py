@@ -3,7 +3,6 @@ from mycroft import MycroftSkill, intent_handler
 from python_bring_api.bring import Bring
 import traceback
 from datetime import datetime, timedelta
-from requests.exceptions import JSONDecodeError
 
 class BringShoppingLists(MycroftSkill):
     def __init__(self):
@@ -38,7 +37,7 @@ class BringShoppingLists(MycroftSkill):
                     return True
                 else:
                     raise Exception(f'Login failed with status code {r.status_code}')
-            except (Exception, JSONDecodeError):
+            except Exception:
                 self.log.exception(traceback.format_exc())
                 return False
         
@@ -50,7 +49,7 @@ class BringShoppingLists(MycroftSkill):
                     return True
                 else:
                     raise Exception(f'Login failed with status code {r.status_code}')
-            except (Exception, JSONDecodeError):
+            except Exception:
                 self.log.exception(traceback.format_exc())
                 return False
         else:
@@ -109,7 +108,7 @@ class BringShoppingLists(MycroftSkill):
                         return
                     self.bring.saveItem(self.listUuid, item)
                     self.speak_dialog('item.was.added', {'item': item, 'list': self.listName})
-                except (Exception, JSONDecodeError):
+                except Exception:
                     self.log.exception('Could not add item to list:\n' + traceback.format_exc())
                     self.speak_dialog('error.adding.item', {'item': item, 'list': self.listName})
             else:
@@ -125,7 +124,7 @@ class BringShoppingLists(MycroftSkill):
                             self.bring.saveItem(list.get('listUuid'), item)
                             self.speak_dialog('item.was.added', {'item': item, 'list': list.get('name')})
                             return
-                        except (Exception, JSONDecodeError):
+                        except Exception:
                             self.log.exception(f'Could not add item to list {listName}:\n' + traceback.format_exc())
                             self.speak_dialog('error.adding.item', {'item': item, 'list': listName})
                             return
@@ -152,7 +151,7 @@ class BringShoppingLists(MycroftSkill):
                         return
                     self.bring.removeItem(self.listUuid, item)
                     self.speak_dialog('item.was.removed', {'item': item, 'list': self.listName})
-                except (Exception, JSONDecodeError):
+                except Exception:
                     self.log.exception('Could not remove item from list:\n' + traceback.format_exc())
                     self.speak_dialog('error.removing.item', {'item': item, 'list': self.listName})
             else:
@@ -168,7 +167,7 @@ class BringShoppingLists(MycroftSkill):
                             self.bring.removeItem(list.get('listUuid'), item)
                             self.speak_dialog('item.was.removed', {'item': item, 'list': list.get('name')})
                             return
-                        except (Exception, JSONDecodeError):
+                        except Exception:
                             self.log.exception(f'Could not remove item from list {listName}:\n' + traceback.format_exc())
                             self.speak_dialog('error.removing.item', {'item': item, 'list': listName})
                             return
