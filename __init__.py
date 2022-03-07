@@ -61,7 +61,7 @@ class BringShoppingLists(MycroftSkill):
         Returns True if uuid and name could be set.
         Returns False otherwise.
         """
-        activeListName = self.settings.get('active_list').lower()
+        activeListName = self.settings.get('active_list', '').lower()
         lists = self.get_lists()
         if lists == []:
             return False
