@@ -2,7 +2,6 @@
   "utterance": "what is my active shopping list",
   "intent_type": "what.is.active.list.intent",
   "expected_dialog": "could.not.find.active.list",
-  "expected_dialog": "did.you.set.list",
   "settings": {
       "email": null,
       "password": null,
