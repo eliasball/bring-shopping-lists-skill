@@ -21,7 +21,7 @@ class BringShoppingLists(MycroftSkill):
             if self.validate_login():
                 self.log.debug('Bring! login successful!')
                 self.fetch_active_list()
-        except:
+        except Exception:
             self.log.exception(traceback.format_exc())
 
     def validate_login(self):
@@ -37,7 +37,7 @@ class BringShoppingLists(MycroftSkill):
                     return True
                 else:
                     raise Exception(f'Login failed with status code {r.status_code}')
-            except:
+            except Exception:
                 self.log.exception(traceback.format_exc())
                 return False
         
@@ -49,7 +49,7 @@ class BringShoppingLists(MycroftSkill):
                     return True
                 else:
                     raise Exception(f'Login failed with status code {r.status_code}')
-            except:
+            except Exception:
                 self.log.exception(traceback.format_exc())
                 return False
         else:
@@ -87,7 +87,7 @@ class BringShoppingLists(MycroftSkill):
             try:
                 lists = self.bring.loadLists()['lists']
                 return lists
-            except:
+            except Exception:
                 self.log.exception('Could not load lists from Bring:\n' + traceback.format_exc())
                 return []
         self.log.debug('login not validated')
@@ -108,7 +108,7 @@ class BringShoppingLists(MycroftSkill):
                         return
                     self.bring.saveItem(self.listUuid, item)
                     self.speak_dialog('item.was.added', {'item': item, 'list': self.listName})
-                except:
+                except Exception:
                     self.log.exception('Could not add item to list:\n' + traceback.format_exc())
                     self.speak_dialog('error.adding.item', {'item': item, 'list': self.listName})
             else:
@@ -124,7 +124,7 @@ class BringShoppingLists(MycroftSkill):
                             self.bring.saveItem(list.get('listUuid'), item)
                             self.speak_dialog('item.was.added', {'item': item, 'list': list.get('name')})
                             return
-                        except:
+                        except Exception:
                             self.log.exception(f'Could not add item to list {listName}:\n' + traceback.format_exc())
                             self.speak_dialog('error.adding.item', {'item': item, 'list': listName})
                             return
@@ -151,7 +151,7 @@ class BringShoppingLists(MycroftSkill):
                         return
                     self.bring.removeItem(self.listUuid, item)
                     self.speak_dialog('item.was.removed', {'item': item, 'list': self.listName})
-                except:
+                except Exception:
                     self.log.exception('Could not remove item from list:\n' + traceback.format_exc())
                     self.speak_dialog('error.removing.item', {'item': item, 'list': self.listName})
             else:
@@ -167,7 +167,7 @@ class BringShoppingLists(MycroftSkill):
                             self.bring.removeItem(list.get('listUuid'), item)
                             self.speak_dialog('item.was.removed', {'item': item, 'list': list.get('name')})
                             return
-                        except:
+                        except Exception:
                             self.log.exception(f'Could not remove item from list {listName}:\n' + traceback.format_exc())
                             self.speak_dialog('error.removing.item', {'item': item, 'list': listName})
                             return
