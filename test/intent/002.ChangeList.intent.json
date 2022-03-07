@@ -5,5 +5,10 @@
     "new_list": "home"
   },
   "expected_dialog": "could.not.find.any.list",
-  "expected_dialog": "did.you.add.correct.login.details"
+  "expected_dialog": "did.you.add.correct.login.details",
+  "settings": {
+      "email": null,
+      "password": null,
+      "active_list": null
+  }
 }

@@ -6,5 +6,10 @@
     "list_name": "home"
   },
   "expected_dialog": "not.logged.in",
-  "expected_dialog": "please.set.email.and.password"
+  "expected_dialog": "please.set.email.and.password",
+  "settings": {
+      "email": null,
+      "password": null,
+      "active_list": null
+  }
 }
