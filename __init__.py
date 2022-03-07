@@ -17,7 +17,8 @@ class BringShoppingLists(MycroftSkill):
             self.listUuid = ''
             self.listName = ''
             self.loggedInUntil = None
-            self.bring = Bring(self.settings.get('email', ''), self.settings.get('password', ''))
+            self.bring = Bring(self.settings.get('email', '') if self.settings.get('email', '') is not None else '', 
+                self.settings.get('password', '') if self.settings.get('password', '') is not None else '')
             if self.validate_login():
                 self.log.debug('Bring! login successful!')
                 self.fetch_active_list()
@@ -61,7 +62,7 @@ class BringShoppingLists(MycroftSkill):
         Returns True if uuid and name could be set.
         Returns False otherwise.
         """
-        activeListName = self.settings.get('active_list', '').lower()
+        activeListName = (self.settings.get('active_list', '') if self.settings.get('active_list', '') is not None else '').lower()
         lists = self.get_lists()
         if lists == []:
             return False
