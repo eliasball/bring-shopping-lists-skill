@@ -1,4 +1,3 @@
-from inspect import trace
 from mycroft import MycroftSkill, intent_handler
 from python_bring_api.bring import Bring
 import traceback
